@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 export const useAxios = <T,>(url: string): UseAxiosProps<T> => {
-  
   const { data, isError, isLoading, error } = useQuery({
     queryKey: ["fetchs", url],
     queryFn: async () => {
@@ -16,8 +15,8 @@ export const useAxios = <T,>(url: string): UseAxiosProps<T> => {
   });
 
   return {
-    data: data || null,
-    error: isError ? (error as Error).message : null,
+    data: data ?? null,
+    error: isError ? error?.message ?? "Ocorreu um erro" : null,
     loading: isLoading,
   };
 };
