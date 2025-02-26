@@ -1,36 +1,23 @@
-'use client';
-import { useEffect, useState } from "react";
+"use client";
+
+import { UseAxiosProps } from "@/interfaces/useAxios";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-interface UseAxiosProps<T> {
-  data: T | null;
-  error: string | null;
-  loading: boolean;
-}
-
 export const useAxios = <T,>(url: string): UseAxiosProps<T> => {
-  const [data, setData] = useState<T | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["fetchs", url],
+    queryFn: async () => {
+      const response = await axios.get<T>(url);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get<T>(url);
-        setData(response.data);
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("Ocorreu um erro desconhecido.");
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
+      return response.data;
+    },
+  });
 
-    fetchData();
-  }, [url]);
-
-  return { data, error, loading };
+  return {
+    data: data || null,
+    error: error instanceof Error ? error.message : null,
+    loading: isLoading,
+  };
 };
