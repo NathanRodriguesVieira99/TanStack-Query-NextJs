@@ -6,7 +6,7 @@ import axios from "axios";
 
 export const useAxios = <T,>(url: string): UseAxiosProps<T> => {
   
-  const { data, error, isLoading } = useQuery({
+  const { data, isError, isLoading, error } = useQuery({
     queryKey: ["fetchs", url],
     queryFn: async () => {
       const response = await axios.get<T>(url);
@@ -17,7 +17,7 @@ export const useAxios = <T,>(url: string): UseAxiosProps<T> => {
 
   return {
     data: data || null,
-    error: error instanceof Error ? error.message : null,
+    error: isError ? (error as Error).message : null,
     loading: isLoading,
   };
 };
