@@ -14,7 +14,7 @@ export const PokemonsList = () => {
 
   return (
     <div className="">
-      <h1 className="text-center">Lista de Pokémon</h1>
+      <h1 className="text-center">Lista de Pokémons</h1>
       <ul className=" flex items-center justify-center flex-col mt-8">
         {pokemonDetails.map((pokemon) => (
           <li key={pokemon.name} style={{ marginBottom: "20px" }}>
