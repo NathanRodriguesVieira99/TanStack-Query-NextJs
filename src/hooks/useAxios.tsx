@@ -5,13 +5,15 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 export const useAxios = <T,>(url: string): UseAxiosProps<T> => {
+  const fetch = async () => {
+    const response = await axios.get<T>(url);
+
+    return response.data;
+  };
+
   const { data, isError, isLoading, error } = useQuery({
     queryKey: ["fetchs", url],
-    queryFn: async () => {
-      const response = await axios.get<T>(url);
-
-      return response.data;
-    },
+    queryFn: fetch,
   });
 
   return {
