@@ -1,9 +1,9 @@
-import { Pokemons } from "@/services/Pokemons";
+import { PokemonsList } from "@/components/pokemonsList";
 
 export default function Home() {
   return (
     <>
-      <Pokemons />
+      <PokemonsList />
     </>
   );
 }
